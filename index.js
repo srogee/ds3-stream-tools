@@ -15,9 +15,9 @@ let maxMessageLength = 24;
 
 client.on('message', (channel, tags, message, self) => {
     if (message && message.toLowerCase().startsWith('!nv ')) {
-        let betterMessage = message.substring(4).trim();
-        if (message.length <= maxMessageLength) {
-            messageQueue.push(betterMessage);
+        let trimmedMessage = message.substring(4).trim();
+        if (trimmedMessage.length <= maxMessageLength) {
+            messageQueue.push(trimmedMessage);
         }
     }
 });
@@ -35,8 +35,11 @@ window.requestAnimationFrame(animationFrame);
 
 function hideMessage() {
     isShowingMessage = false;
-    document.getElementById('banner').classList.remove('fade-in');
-    document.getElementById('banner').classList.add('fade-out');
+
+    let banner = document.getElementById('banner');
+    banner.classList.remove('fade-in');
+    banner.classList.add('fade-out');
+    
     setTimeout(actuallyHideMessage, fadeOutDuration);
     setTimeout(allowShowingMessages, fadeOutDuration + timeBetweenQueuedMessages);
 }
@@ -48,10 +51,15 @@ function actuallyHideMessage() {
 function showMessage(message) {
     isShowingMessage = true;
     canShowMessage = false;
-    document.getElementById('banner').style = '';
-    document.getElementById('text').innerText = message;
-    document.getElementById('banner').classList.remove('fade-out');
-    document.getElementById('banner').classList.add('fade-in');
+
+    let banner = document.getElementById('banner');
+    banner.style = '';
+    banner.classList.remove('fade-out');
+    banner.classList.add('fade-in');
+
+    let text = document.getElementById('text');
+    text.innerText = message;
+
     setTimeout(hideMessage, duration);
 }
 
